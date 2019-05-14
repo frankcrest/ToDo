@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UITextField* priorityTextField;
 @property (nonatomic, strong) UIButton* submitButton;
 @property (nonatomic, strong) Todo* TodoItem;
+@property (nonatomic,strong) UIDatePicker* datePicker;
 
 @end
 
@@ -52,10 +53,15 @@
     [submitButton addTarget:self action:@selector(submitTapped:) forControlEvents:UIControlEventTouchUpInside];
     self.submitButton = submitButton;
     
+    UIDatePicker* datePicker = [[UIDatePicker alloc]initWithFrame:CGRectZero];
+    datePicker.translatesAutoresizingMaskIntoConstraints = NO;
+    self.datePicker = datePicker;
+    
     [self.view addSubview:titleTextField];
     [self.view addSubview:descriptionTextField];
     [self.view addSubview: priorityTextField];
     [self.view addSubview:submitButton];
+    [self.view addSubview:datePicker];
     
     [NSLayoutConstraint activateConstraints:@[
                                               [titleTextField.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:8],
@@ -73,6 +79,9 @@
                                               [submitButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:8],
                                               [submitButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:8],
                                               [submitButton.topAnchor constraintEqualToAnchor:priorityTextField.bottomAnchor constant:8],
+                                              [datePicker.topAnchor constraintEqualToAnchor:submitButton.bottomAnchor constant:8],
+                                              [datePicker.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:8],
+                                              [datePicker.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:8],
                                               ]];
 }
 
@@ -82,8 +91,9 @@
     NSString* descriptionString = self.descriptionTextField.text;
     NSString* priorityString = self.priorityTextField.text;
     NSInteger priorityInt = [priorityString integerValue];
+    NSDate* date = [self.datePicker date];
     
-    [_delegate addNewToDoWithTitle:titleString withDescription:descriptionString withPriority:priorityInt];
+    [_delegate addNewToDoWithTitle:titleString withDescription:descriptionString withPriority:priorityInt withDate:date];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -29,9 +29,9 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
    
-    Todo* toDoItem1 = [[Todo alloc]initWithTitle:@"eat" withDescription:@"eat chicken and steak" withPriority:1];
-    Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2];
-    Todo* toDoItem3 = [[Todo alloc]initWithTitle:@"clean dish" withDescription:@"clean dish with dish washer" withPriority:3];
+    Todo* toDoItem1 = [[Todo alloc]initWithTitle:@"eat" withDescription:@"eat chicken and steak" withPriority:1 withDate:[NSDate new]];
+    Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2 withDate:[NSDate new]];
+    Todo* toDoItem3 = [[Todo alloc]initWithTitle:@"clean dish" withDescription:@"clean dish with dish washer" withPriority:3 withDate:[NSDate new]];
     self.toDoItems = [[NSMutableArray alloc]initWithObjects:toDoItem1,toDoItem2,toDoItem3, nil];
     
     UISwipeGestureRecognizer* swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipedTableView:)];
@@ -109,8 +109,8 @@
     [self performSegueWithIdentifier:@"addToDoSegue" sender:self];
 }
 
-- (void)addNewToDoWithTitle:(NSString *)title withDescription:(NSString *)description withPriority:(NSInteger)priority{
-    Todo* newTodo = [[Todo alloc]initWithTitle:title withDescription:description withPriority:priority];
+- (void)addNewToDoWithTitle:(NSString *)title withDescription:(NSString *)description withPriority:(NSInteger)priority withDate:(NSDate*)date{
+    Todo* newTodo = [[Todo alloc]initWithTitle:title withDescription:description withPriority:priority withDate:date];
     [self.toDoItems addObject:newTodo];
 }
 

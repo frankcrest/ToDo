@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* todoDescription;
 @property (nonatomic, assign) NSInteger priorityNumber;
 @property (nonatomic, assign) BOOL isCompleted;
+@property (nonatomic, strong) NSDate* date;
 
--(instancetype)initWithTitle:(NSString*)title withDescription:(NSString*)description withPriority:(NSInteger)priority;
+-(instancetype)initWithTitle:(NSString*)title withDescription:(NSString*)description withPriority:(NSInteger)priority withDate:(NSDate*)date;
 
 @end
 

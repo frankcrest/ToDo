@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol AddToDoDelegate <NSObject>
 
--(void)addNewToDoWithTitle:(NSString*)title withDescription:(NSString*)description withPriority:(NSInteger)priority;
+-(void)addNewToDoWithTitle:(NSString*)title withDescription:(NSString*)description withPriority:(NSInteger)priority withDate:(NSDate*)date;
 
 @end
 
