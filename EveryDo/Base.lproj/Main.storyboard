@@ -42,7 +42,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dBJ-rl-7ix"/>
+                    <navigationItem key="navigationItem" id="dBJ-rl-7ix">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="NxM-5n-PEV">
+                            <connections>
+                                <action selector="addItemPressed:" destination="BYZ-38-t0r" id="9gO-bW-pEc"/>
+                                <segue destination="ugO-LY-zzy" kind="show" identifier="addToDoSegue" id="12R-Cb-5Te"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="DZv-Ic-Lwc" id="IXX-dh-krC"/>
                         <segue destination="B52-D5-ari" kind="show" identifier="showDetailSegue" id="UAV-hq-Hsp"/>
@@ -51,6 +58,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1111.2" y="13.943028485757123"/>
+        </scene>
+        <!--Add To Do View Controller-->
+        <scene sceneID="aDP-N0-vDw">
+            <objects>
+                <viewController id="ugO-LY-zzy" customClass="AddToDoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="p5j-Xt-urK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Sbu-oC-oPA"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nUF-3I-t69" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2073" y="-654"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="x8t-rq-9Ei">
@@ -65,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRA-I1-jGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1804" y="13.943028485757123"/>
+            <point key="canvasLocation" x="2074" y="14"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jgY-Ht-fwH">

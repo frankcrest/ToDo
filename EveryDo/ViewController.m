@@ -10,11 +10,12 @@
 #import "Todo.h"
 #import "CustomCell.h"
 #import "DetailViewController.h"
+#import "AddToDoViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <AddToDoDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray<Todo*>* toDoItems;
+@property (nonatomic, strong) NSMutableArray<Todo*>* toDoItems;
 
 @end
 
@@ -22,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView registerClass:[CustomCell class] forCellReuseIdentifier:@"toDoCell"];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -29,8 +31,11 @@
     Todo* toDoItem1 = [[Todo alloc]initWithTitle:@"eat" withDescription:@"eat chicken and steak" withPriority:1];
     Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2];
     Todo* toDoItem3 = [[Todo alloc]initWithTitle:@"clean dish" withDescription:@"clean dish with dish washer" withPriority:3];
-    
-    self.toDoItems = [[NSArray alloc]initWithObjects:toDoItem1,toDoItem2,toDoItem3, nil];
+    self.toDoItems = [[NSMutableArray alloc]initWithObjects:toDoItem1,toDoItem2,toDoItem3, nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [self.tableView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -44,7 +49,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CustomCell* cell = [tableView dequeueReusableCellWithIdentifier:@"toDoCell"];
 
-    cell = [[CustomCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"toDoCell"];
+    //cell = [[CustomCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"toDoCell"];
 
     cell.todoTitleLabel.text = self.toDoItems[indexPath.row].title;
     cell.todoDescriptionLabel.text = self.toDoItems[indexPath.row].todoDescription;
@@ -71,8 +76,22 @@
         Todo* todoItem = self.toDoItems[indexPath.row];
         
         dvc.todoObject = todoItem;
-        
+    } else{
+        if ([segue.identifier isEqualToString:@"addToDoSegue"]) {
+            AddToDoViewController* dvc = [segue destinationViewController];
+            dvc.delegate = self;
+        }
     }
 }
+
+- (IBAction)addItemPressed:(UIBarButtonItem *)sender {
+    [self performSegueWithIdentifier:@"addToDoSegue" sender:self];
+}
+
+- (void)addNewToDoWithTitle:(NSString *)title withDescription:(NSString *)description withPriority:(NSInteger)priority{
+    Todo* newTodo = [[Todo alloc]initWithTitle:title withDescription:description withPriority:priority];
+    [self.toDoItems addObject:newTodo];
+}
+
 
 @end
