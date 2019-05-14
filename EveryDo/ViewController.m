@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Todo.h"
 #import "CustomCell.h"
+#import "DetailViewController.h"
 
 @interface ViewController ()
 
@@ -54,6 +55,24 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 56;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showDetailSegue"]) {
+        DetailViewController* dvc = [segue destinationViewController];
+        
+        NSIndexPath* indexPath = [self.tableView indexPathForSelectedRow];
+        
+        Todo* todoItem = self.toDoItems[indexPath.row];
+        
+        dvc.todoObject = todoItem;
+        
+    }
 }
 
 @end
