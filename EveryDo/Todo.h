@@ -12,8 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Todo : NSObject
 
-@property NSString* title;
-@property NSString* todoDescription;
+@property (nonatomic, strong) NSString* title;
+@property (nonatomic, strong) NSString* todoDescription;
+@property (nonatomic, assign) NSInteger priorityNumber;
+@property (nonatomic, assign) BOOL isCompleted;
+
+-(instancetype)initWithTitle:(NSString*)title withDescription:(NSString*)description withPriority:(NSInteger)priority;
 
 @end
 
