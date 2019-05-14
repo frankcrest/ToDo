@@ -16,6 +16,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<Todo*>* toDoItems;
+@property (nonatomic,strong) NSMutableArray <Todo*>* completedToDoItems;
+@property (nonatomic,strong) NSMutableArray<NSArray<Todo*>*>* toDoCategories;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @end
@@ -38,7 +40,10 @@
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.tableView addGestureRecognizer:swipeGesture];
     
-    
+    self.completedToDoItems = [[NSMutableArray alloc]init];
+    self.toDoCategories = [[NSMutableArray alloc]init];
+    [self.toDoCategories addObject:self.toDoItems];
+    [self.toDoCategories addObject:self.completedToDoItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -46,21 +51,19 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return [self.toDoCategories count];;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.toDoItems count];
+    return self.toDoCategories[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CustomCell* cell = [tableView dequeueReusableCellWithIdentifier:@"toDoCell"];
 
-    //cell = [[CustomCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"toDoCell"];
-
-    cell.todoTitleLabel.text = self.toDoItems[indexPath.row].title;
-    cell.todoDescriptionLabel.text = self.toDoItems[indexPath.row].todoDescription;
-    cell.priorityLabel.text = [NSString stringWithFormat:@"%ld", self.toDoItems[indexPath.row].priorityNumber];
+    cell.todoTitleLabel.text = self.toDoCategories[indexPath.section][indexPath.row].title;
+    cell.todoDescriptionLabel.text = self.toDoCategories[indexPath.section][indexPath.row].todoDescription;
+    cell.priorityLabel.text = [NSString stringWithFormat:@"%ld", self.toDoCategories[indexPath.section][indexPath.row].priorityNumber];
     
     return cell;
 }
@@ -118,8 +121,15 @@
     if (sender.state == UIGestureRecognizerStateEnded) {
         CGPoint location = [sender locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        NSLog(@"%ld", indexPath.row);
         self.toDoItems[indexPath.row].isCompleted = YES;
-        [self sortArray];
+        
+        Todo* completedTodo = self.toDoItems[indexPath.row];
+        NSLog(@"%@", completedTodo.title);
+        [self.completedToDoItems addObject:completedTodo];
+        [self.toDoItems removeObjectAtIndex:indexPath.row];
+        
+        //[self sortArray];
         [self.tableView reloadData];
     }
 }
@@ -140,4 +150,13 @@
     [self.tableView setEditing:!self.tableView.editing];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return @"To do items";
+    } else if (section == 1){
+        return @"completed";
+    } else{
+        return @"";
+    }
+}
 @end
