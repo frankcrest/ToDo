@@ -38,16 +38,16 @@
         [self addSubview:self.priorityLabel];
         
         [NSLayoutConstraint activateConstraints:@[
-                                                  [self.todoTitleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8],
+                                                  [self.todoTitleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40],
                                                   [self.todoTitleLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:8],
                                                   [self.todoTitleLabel.heightAnchor constraintEqualToConstant:20],
                                                   [self.todoTitleLabel.widthAnchor constraintEqualToConstant:100],
                                                   [self.todoDescriptionLabel.topAnchor constraintEqualToAnchor:self.todoTitleLabel.bottomAnchor constant:8],
-                                                  [self.todoDescriptionLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8],
+                                                  [self.todoDescriptionLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40],
                                                   [self.todoDescriptionLabel.heightAnchor constraintEqualToConstant: 20],
                                                   [self.priorityLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
                                                   [self.priorityLabel.leadingAnchor constraintEqualToAnchor:self.todoDescriptionLabel.trailingAnchor],
-                                                  [self.priorityLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8],
+                                                  [self.priorityLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-40],
                                                   [self.priorityLabel.heightAnchor constraintEqualToConstant: 20],
                                                   [self.priorityLabel.widthAnchor constraintEqualToConstant:20],
                                                   ]];

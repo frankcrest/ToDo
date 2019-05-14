@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<Todo*>* toDoItems;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @end
 
@@ -36,6 +37,8 @@
     UISwipeGestureRecognizer* swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipedTableView:)];
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.tableView addGestureRecognizer:swipeGesture];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -66,6 +69,20 @@
     return 56;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    
+    NSInteger sourceIndex = sourceIndexPath.row;
+    NSInteger destinationIndex = destinationIndexPath.row;
+    
+    Todo* destinationObject = self.toDoItems[destinationIndex];
+    
+    [self.toDoItems replaceObjectAtIndex:destinationIndex withObject:self.toDoItems[sourceIndex]];
+    [self.toDoItems replaceObjectAtIndex:sourceIndex withObject:destinationObject];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
@@ -118,6 +135,9 @@
         [self.toDoItems removeObjectAtIndex:indexPath.row];
         [self.tableView reloadData];
     }
+}
+- (IBAction)editPressed:(UIBarButtonItem *)sender {
+    [self.tableView setEditing:!self.tableView.editing];
 }
 
 @end

@@ -43,6 +43,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="dBJ-rl-7ix">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="evk-Yn-DjM">
+                            <connections>
+                                <action selector="editPressed:" destination="BYZ-38-t0r" id="CEf-1W-bK9"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="NxM-5n-PEV">
                             <connections>
                                 <action selector="addItemPressed:" destination="BYZ-38-t0r" id="9gO-bW-pEc"/>
@@ -51,6 +56,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="evk-Yn-DjM" id="7N8-8Q-Eo2"/>
                         <outlet property="tableView" destination="DZv-Ic-Lwc" id="IXX-dh-krC"/>
                         <segue destination="B52-D5-ari" kind="show" identifier="showDetailSegue" id="UAV-hq-Hsp"/>
                     </connections>
