@@ -32,6 +32,10 @@
     Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2];
     Todo* toDoItem3 = [[Todo alloc]initWithTitle:@"clean dish" withDescription:@"clean dish with dish washer" withPriority:3];
     self.toDoItems = [[NSMutableArray alloc]initWithObjects:toDoItem1,toDoItem2,toDoItem3, nil];
+    
+    UISwipeGestureRecognizer* swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipedTableView:)];
+    swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.tableView addGestureRecognizer:swipeGesture];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -93,5 +97,20 @@
     [self.toDoItems addObject:newTodo];
 }
 
+-(void)swipedTableView:(UISwipeGestureRecognizer*)sender{
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        CGPoint location = [sender locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        self.toDoItems[indexPath.row].isCompleted = YES;
+        [self sortArray];
+        [self.tableView reloadData];
+    }
+}
+
+-(void)sortArray{
+    NSSortDescriptor* sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"isCompleted" ascending:NO];
+    [self.toDoItems sortUsingDescriptors:@[sortDescriptor]];
+}
 
 @end
