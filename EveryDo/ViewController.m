@@ -113,4 +113,11 @@
     [self.toDoItems sortUsingDescriptors:@[sortDescriptor]];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.toDoItems removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+    }
+}
+
 @end
