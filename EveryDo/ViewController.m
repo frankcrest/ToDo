@@ -19,6 +19,7 @@
 @property (nonatomic,strong) NSMutableArray <Todo*>* completedToDoItems;
 @property (nonatomic,strong) NSMutableArray<NSArray<Todo*>*>* toDoCategories;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
 @end
 
@@ -31,9 +32,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
    
-    Todo* toDoItem1 = [[Todo alloc]initWithTitle:@"eat" withDescription:@"eat chicken and steak" withPriority:1 withDate:[NSDate new]];
-    Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2 withDate:[NSDate new]];
     Todo* toDoItem3 = [[Todo alloc]initWithTitle:@"clean dish" withDescription:@"clean dish with dish washer" withPriority:3 withDate:[NSDate new]];
+     Todo* toDoItem2 = [[Todo alloc]initWithTitle:@"watch tv" withDescription:@"watch nba playoffs" withPriority:2 withDate:[NSDate new]];
+      Todo* toDoItem1 = [[Todo alloc]initWithTitle:@"eat" withDescription:@"eat chicken and steak" withPriority:1 withDate:[NSDate new]];
+    
     self.toDoItems = [[NSMutableArray alloc]initWithObjects:toDoItem1,toDoItem2,toDoItem3, nil];
     
     UISwipeGestureRecognizer* swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipedTableView:)];
@@ -122,21 +124,39 @@
         CGPoint location = [sender locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
         NSLog(@"%ld", indexPath.row);
-        self.toDoItems[indexPath.row].isCompleted = YES;
         
-        Todo* completedTodo = self.toDoItems[indexPath.row];
-        NSLog(@"%@", completedTodo.title);
-        [self.completedToDoItems addObject:completedTodo];
-        [self.toDoItems removeObjectAtIndex:indexPath.row];
-        
-        //[self sortArray];
-        [self.tableView reloadData];
+        if (indexPath.section == 0) {
+            self.toDoItems[indexPath.row].isCompleted = YES;
+            
+            Todo* completedTodo = self.toDoItems[indexPath.row];
+            NSLog(@"%@", completedTodo.title);
+            [self.completedToDoItems addObject:completedTodo];
+            [self.toDoItems removeObjectAtIndex:indexPath.row];
+            
+            //[self sortArray];
+            [self.tableView reloadData];
+        } else if (indexPath.section == 1){
+            self.completedToDoItems[indexPath.row].isCompleted = YES;
+            
+            Todo* uncompleteTodo = self.completedToDoItems[indexPath.row];
+            [self.toDoItems addObject:uncompleteTodo];
+            [self.completedToDoItems removeObjectAtIndex:indexPath.row];
+            
+            //[self sortArray];
+            [self.tableView reloadData];
+        }
     }
 }
 
--(void)sortArray{
+-(void)sortArrayByDate{
     NSSortDescriptor* sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"isCompleted" ascending:NO];
+    sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO];
+    [self.toDoItems sortUsingDescriptors:@[sortDescriptor]];
+}
+
+-(void)sortArrayByImportance{
+    NSSortDescriptor* sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"priorityNumber" ascending:YES];
     [self.toDoItems sortUsingDescriptors:@[sortDescriptor]];
 }
 
@@ -159,4 +179,16 @@
         return @"";
     }
 }
+
+- (IBAction)segmentControlChanged:(UISegmentedControl *)sender {
+    if (self.segmentControl.selectedSegmentIndex == 0) {
+        [self sortArrayByDate];
+        [self.tableView reloadData];
+    } else if (self.segmentControl.selectedSegmentIndex == 1){
+        NSLog(@"log");
+        [self sortArrayByImportance];
+        [self.tableView reloadData];
+    }
+}
+
 @end
