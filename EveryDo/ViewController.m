@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Todo.h"
 
 @interface ViewController ()
 
@@ -16,7 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    Todo* toDoItem1 = [[Todo alloc]init];
+    Todo* toDoItem2 = [[Todo alloc]init];
+    Todo* toDoItem3 = [[Todo alloc]init];
+    
+    NSArray* toDoItems = @[toDoItem1, toDoItem2, toDoItem3];
+    
 }
 
 
